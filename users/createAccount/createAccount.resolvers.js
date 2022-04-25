@@ -3,10 +3,7 @@ import bcrypt from "bcrypt";
 
 export default {
   Mutation: {
-    createAccount: async (
-      _,
-      { firstName, lastName, username, email, password }
-    ) => {
+    createAccount: async (_, { korName, username, email, password }) => {
       try {
         const existingUser = await client.user.findFirst({
           where: {
@@ -24,17 +21,19 @@ export default {
           throw new Error("This username/email is already taken");
         }
         const uglyPassword = await bcrypt.hash(password, 10);
-        return client.user.create({
+        await client.user.create({
           data: {
             username,
             email,
-            firstName,
-            lastName,
+            korName,
             password: uglyPassword,
           },
         });
+        return {
+          ok: true,
+        };
       } catch (e) {
-        return e;
+        return { ok: false, error: "Can't create account" };
       }
     },
   },

@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Brand" ADD COLUMN     "conditionalShipping" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "conditionalShippingAmount" INTEGER NOT NULL DEFAULT 50000,
+ADD COLUMN     "freeShipping" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "shippingCost" INTEGER NOT NULL DEFAULT 3000,
+ADD COLUMN     "shippingDay" TEXT NOT NULL DEFAULT E'1',
+ALTER COLUMN "bio" SET DEFAULT E'-';

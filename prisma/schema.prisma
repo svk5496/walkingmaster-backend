@@ -11,37 +11,189 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  firstName String
-  lastName  String?
-  username  String   @unique
-  email     String   @unique
-  password  String
-  bio       String?
-  avatar    String?
-  photos    Photo[]
-  following User[]   @relation("FollowRlation", references: [id])
-  followers User[]   @relation("FollowRlation", references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int           @id @default(autoincrement())
+  korName     String
+  nickName    String?
+  username    String        @unique
+  email       String        @unique
+  password    String
+  bio         String?
+  avatar      String?
+  following   User[]        @relation("FollowRlation", references: [id])
+  followers   User[]        @relation("FollowRlation", references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  loginMethod String        @default("email")
+  birthYear   Int?
+  birthDay    String?
+  gender      String?
+  point       Int           @default(2000)
+  BrandLike   BrandLike[]
+  ProductLike ProductLike[]
+  Review      Review[]
 }
 
-model Photo {
+model Product {
+  id             Int           @id @default(autoincrement())
+  productName    String
+  productEngName String?
+  price          Int
+  discountRate   Int           @default(0)
+  brand          Brand         @relation(fields: [brandId], references: [id])
+  brandId        Int
+  thumbnail      String        @default("null")
+  detailPage1    String        @default("null")
+  detailPage2    String        @default("null")
+  madeIn         String
+  caution        String
+  wrranty        String
+  best           Boolean       @default(false)
+  onSale         Boolean       @default(false)
+  available      Boolean       @default(false)
+  freeShipping   Boolean       @default(false)
+  sizes          Size[]
+  colors         Color[]
+  contains       Contain[]
+  category1      Category1[]
+  category2      Category2[]
+  category3      Category3[]
+  hashtags       Hashtag[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  productLike    ProductLike[]
+  reviews        Review[]
+  ProductItem    ProductItem[]
+}
+
+model ProductItem {
+  id              Int     @id @default(autoincrement())
+  product         Product @relation(fields: [productId], references: [id])
+  productId       Int
+  color           Color   @relation(fields: [colorId], references: [id])
+  colorId         Int
+  size            Size    @relation(fields: [sizeId], references: [id])
+  sizeId          Int
+  additionalPrice Int?
+  sku             String?
+  stockAmount     Int     @default(0)
+}
+
+model Brand {
+  id                        Int         @id @default(autoincrement())
+  brandName                 String
+  brandEngName              String
+  bio                       String      @default("-")
+  products                  Product[]
+  brandLogo                 String      @default("null")
+  brandCoverImg             String      @default("null")
+  companyName               String
+  companyRegistrationNumber String
+  tongsinNumber             String
+  cs                        String
+  shippingCost              Int         @default(3000)
+  conditionalShipping       Boolean     @default(false)
+  conditionalShippingAmount Int         @default(50000)
+  additionalShippingCost    Int         @default(0)
+  shippingDay               String      @default("1")
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
+  brandLikes                BrandLike[]
+}
+
+model Size {
   id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id]) // Foregin Key
-  userId    Int
-  file      String
-  caption   String?
-  hashtags  Hashtag[] // Many to Many field
+  name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  products  Product[]
+
+  ProductItem ProductItem[]
+}
+
+model Color {
+  id          Int           @id @default(autoincrement())
+  name        String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  products    Product[]
+  ProductItem ProductItem[]
+}
+
+model Contain {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+
+}
+
+model Category1 {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+
+}
+
+model Category2 {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+
+}
+
+model Category3 {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
 }
 
 model Hashtag {
+  id        Int       @id @default(autoincrement())
+  hashtag   String    @unique
+  products  Product[] // Many to Many field
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+}
+
+model BrandLike {
   id        Int      @id @default(autoincrement())
-  hashtag   String   @unique
-  photos    Photo[] // Many to Many field
+  brand     Brand    @relation(fields: [brandId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  brandId   Int
+  userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([brandId, userId])
+}
+
+model ProductLike {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  productId Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, userId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  userId    Int
+  productId Int
+  payload   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
