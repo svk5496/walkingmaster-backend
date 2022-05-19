@@ -100,6 +100,34 @@ model Brand {
   brandLikes                BrandLike[]
 }
 
+model Question {
+  id               Int      @id @default(autoincrement())
+  order            Int      @unique
+  isQ              Boolean
+  isMultipleChoice Boolean
+  quiz             String?
+  hint             String?
+  isTwinkle        Boolean
+  picBefore        String?
+  picAfter         String?
+  comment1         String?
+  comment2         String?
+  comment3         String?
+  comment4         String?
+  Answers          Answer[]
+}
+
+model Answer {
+  id         Int       @id @default(autoincrement())
+  answer     String
+  explain    String?
+  picture    String?
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId Int?
+  keyValue   String
+  skip       Int       @default(1)
+}
+
 model Size {
   id        Int       @id @default(autoincrement())
   name      String

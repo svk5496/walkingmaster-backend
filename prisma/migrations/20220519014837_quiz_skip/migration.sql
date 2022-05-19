@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Answer" ADD COLUMN     "skip" INTEGER NOT NULL DEFAULT 1;

@@ -24,6 +24,7 @@ export default gql`
     updatedAt: String!
     reviews: Int!
     isLiked: Boolean!
+    productItem: [ProductItem]
   }
 
   type Color {

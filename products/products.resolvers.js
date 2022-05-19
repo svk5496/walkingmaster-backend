@@ -77,7 +77,7 @@ export default {
   },
   ProductItem: {
     inStock: async ({ id }) => {
-      const ok = await client.productItem.findFirst({
+      const ok = await client.productItem.findUnique({
         where: {
           id,
         },
@@ -90,6 +90,12 @@ export default {
       }
       return true;
     },
+    product: ({ productId }) =>
+      client.product.findUnique({
+        where: {
+          id: productId,
+        },
+      }),
   },
 
   Color: {
