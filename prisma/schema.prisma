@@ -107,7 +107,9 @@ model Question {
   isMultipleChoice Boolean
   quiz             String?
   hint             String?
-  isTwinkle        Boolean
+  keyName          String   @default("KEY_NULL")
+  isBlink          Boolean  @default(true)
+  isAnswerPic      Boolean  @default(true)
   picBefore        String?
   picAfter         String?
   comment1         String?
@@ -118,14 +120,14 @@ model Question {
 }
 
 model Answer {
-  id         Int       @id @default(autoincrement())
-  answer     String
-  explain    String?
-  picture    String?
-  Question   Question? @relation(fields: [questionId], references: [id])
-  questionId Int?
-  keyValue   String
-  skip       Int       @default(1)
+  id              Int       @id @default(autoincrement())
+  answer          String
+  explain         String?
+  picture         String?
+  Question        Question? @relation(fields: [questionOrderId], references: [order])
+  questionOrderId Int?
+  keyValue        String
+  skip            Int       @default(1)
 }
 
 model Size {
@@ -134,7 +136,6 @@ model Size {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
-
   ProductItem ProductItem[]
 }
 

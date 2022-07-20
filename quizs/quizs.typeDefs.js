@@ -8,7 +8,9 @@ export default gql`
     isMultipleChoice: Boolean!
     quiz: String
     hint: String
-    isTwinkle: Boolean!
+    keyName: String!
+    isBlink: Boolean!
+    isAnswerPic: Boolean!
     picBefore: String
     picAfter: String
     comment1: String

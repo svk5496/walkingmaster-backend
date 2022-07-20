@@ -14,6 +14,7 @@ export default {
       });
     },
     sizes: ({ id }) => {
+      console.log("haha");
       return client.size.findMany({
         where: {
           products: {
@@ -74,6 +75,7 @@ export default {
       }
       return false;
     },
+    productItem: ({ id }) => client.product.findUnique({ id }).ProductItem(),
   },
   ProductItem: {
     inStock: async ({ id }) => {

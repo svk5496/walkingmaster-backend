@@ -40,7 +40,7 @@ export default {
         let uglyPassword = null;
         if (newPassword) {
           uglyPassword = await bcrypt.hash(newPassword, 10);
-        }
+        } 
         const updatedUser = await client.user.update({
           where: {
             id: loggedInUser.id,

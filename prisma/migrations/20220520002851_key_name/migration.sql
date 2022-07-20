@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Answer" ADD COLUMN     "keyName" TEXT NOT NULL DEFAULT E'KEY_NULL';

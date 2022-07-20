@@ -2,10 +2,10 @@ import client from "../client";
 
 export default {
   Question: {
-    answers: ({ id }) =>
+    answers: ({ order }) =>
       client.answer.findMany({
         where: {
-          questionId: id,
+          questionOrderId: order,
         },
       }),
   },
