@@ -5,19 +5,24 @@ export default gql`
     id: Int!
     productName: String!
     productEngName: String
-    price: Int!
-    discountRate: Int!
+    originalPrice: String!
+    discountPrice: String
     brand: Brand!
     sizes: [Size]
     colors: [Color]
     thumbnail: String!
+    productSliderImage: String
     detailPage1: String!
     detailPage2: String!
     madeIn: String!
-    caution: String!
-    wrranty: String!
-    best: String!
     onSale: Boolean!
+    onShowing: Boolean!
+    firstOption: String!
+    secondOption: String
+    thirdOption: String
+    rawMaterial: String
+    ussage: String
+    qualityStandard: String
     hashtags: [Hashtag]
     productLikes: Int!
     createdAt: String!

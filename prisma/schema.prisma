@@ -19,8 +19,6 @@ model User {
   password    String
   bio         String?
   avatar      String?
-  following   User[]        @relation("FollowRlation", references: [id])
-  followers   User[]        @relation("FollowRlation", references: [id])
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   loginMethod String        @default("email")
@@ -33,36 +31,50 @@ model User {
   Review      Review[]
 }
 
+model AdminUser {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String   @unique
+  korName   String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Product {
-  id             Int           @id @default(autoincrement())
-  productName    String
-  productEngName String?
-  price          Int
-  discountRate   Int           @default(0)
-  brand          Brand         @relation(fields: [brandId], references: [id])
-  brandId        Int
-  thumbnail      String        @default("null")
-  detailPage1    String        @default("null")
-  detailPage2    String        @default("null")
-  madeIn         String
-  caution        String
-  wrranty        String
-  best           Boolean       @default(false)
-  onSale         Boolean       @default(false)
-  available      Boolean       @default(false)
-  freeShipping   Boolean       @default(false)
-  sizes          Size[]
-  colors         Color[]
-  contains       Contain[]
-  category1      Category1[]
-  category2      Category2[]
-  category3      Category3[]
-  hashtags       Hashtag[]
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  productLike    ProductLike[]
-  reviews        Review[]
-  ProductItem    ProductItem[]
+  id                 Int           @id @default(autoincrement())
+  productName        String
+  productEngName     String?
+  orginalPrice       Int?
+  discountPrice      Int           @default(0)
+  brand              Brand         @relation(fields: [brandId], references: [id])
+  brandId            Int
+  thumbnail          String        @default("null")
+  productSliderImage String?
+  detailPage1        String        @default("null")
+  detailPage2        String        @default("null")
+  madeIn             String?
+  rawMaterial        String?
+  ussage             String?
+  qualityStandard    String?
+  best               Boolean       @default(false)
+  onSale             Boolean       @default(false)
+  onShowing          Boolean       @default(true)
+  firstOption        String?
+  secondOption       String?
+  thirdOption        String?
+  sizes              Size[]
+  colors             Color[]
+  contains           Contain[]
+  category1          Category1[]
+  category2          Category2[]
+  category3          Category3[]
+  hashtags           Hashtag[]
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  productLike        ProductLike[]
+  reviews            Review[]
+  ProductItem        ProductItem[]
 }
 
 model ProductItem {
@@ -131,11 +143,11 @@ model Answer {
 }
 
 model Size {
-  id        Int       @id @default(autoincrement())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  id          Int           @id @default(autoincrement())
+  name        String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  products    Product[]
   ProductItem ProductItem[]
 }
 
@@ -154,7 +166,6 @@ model Contain {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
-
 }
 
 model Category1 {
@@ -163,7 +174,6 @@ model Category1 {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
-
 }
 
 model Category2 {
@@ -172,7 +182,6 @@ model Category2 {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
-
 }
 
 model Category3 {
@@ -189,7 +198,6 @@ model Hashtag {
   products  Product[] // Many to Many field
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-
 }
 
 model BrandLike {
