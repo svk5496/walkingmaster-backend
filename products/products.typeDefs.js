@@ -10,6 +10,7 @@ export default gql`
     brand: Brand!
     sizes: [Size]
     colors: [Color]
+    extraOptions: [Color]
     thumbnail: String!
     productSliderImage: String
     detailPage1: String!
@@ -29,7 +30,7 @@ export default gql`
     updatedAt: String!
     reviews: Int!
     isLiked: Boolean!
-    productItem: [ProductItem]
+    productItems: [ProductItem]
   }
 
   type Color {

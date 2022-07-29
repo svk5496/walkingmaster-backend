@@ -45,9 +45,9 @@ model Product {
   id                 Int           @id @default(autoincrement())
   productName        String
   productEngName     String?
-  orginalPrice       Int?
+  originalPrice      Int?
   discountPrice      Int           @default(0)
-  brand              Brand         @relation(fields: [brandId], references: [id])
+  brand              Brand         @relation(fields: [brandId], references: [id], onDelete: Cascade)
   brandId            Int
   thumbnail          String        @default("null")
   productSliderImage String?
@@ -66,6 +66,7 @@ model Product {
   sizes              Size[]
   colors             Color[]
   contains           Contain[]
+  extraOptions       ExtraOption[]
   category1          Category1[]
   category2          Category2[]
   category3          Category3[]
@@ -74,20 +75,22 @@ model Product {
   updatedAt          DateTime      @updatedAt
   productLike        ProductLike[]
   reviews            Review[]
-  ProductItem        ProductItem[]
+  productItems       ProductItem[]
 }
 
 model ProductItem {
-  id              Int     @id @default(autoincrement())
-  product         Product @relation(fields: [productId], references: [id])
+  id              Int          @id @default(autoincrement())
+  product         Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId       Int
-  color           Color   @relation(fields: [colorId], references: [id])
+  color           Color        @relation(fields: [colorId], references: [id])
   colorId         Int
-  size            Size    @relation(fields: [sizeId], references: [id])
+  size            Size         @relation(fields: [sizeId], references: [id])
   sizeId          Int
   additionalPrice Int?
   sku             String?
-  stockAmount     Int     @default(0)
+  stockAmount     Int          @default(0)
+  ExtraOption     ExtraOption? @relation(fields: [extraOptionId], references: [id])
+  extraOptionId   Int?
 }
 
 model Brand {
@@ -143,21 +146,30 @@ model Answer {
 }
 
 model Size {
-  id          Int           @id @default(autoincrement())
-  name        String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  products    Product[]
-  ProductItem ProductItem[]
+  id           Int           @id @default(autoincrement())
+  size         String        @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  products     Product[]
+  productItems ProductItem[]
 }
 
 model Color {
+  id           Int           @id @default(autoincrement())
+  color        String        @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  products     Product[]
+  productItems ProductItem[]
+}
+
+model ExtraOption {
   id          Int           @id @default(autoincrement())
-  name        String
+  extraOption String        @unique
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   products    Product[]
-  ProductItem ProductItem[]
+  poductItems ProductItem[]
 }
 
 model Contain {
@@ -170,7 +182,7 @@ model Contain {
 
 model Category1 {
   id        Int       @id @default(autoincrement())
-  name      String
+  category  String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
@@ -178,7 +190,7 @@ model Category1 {
 
 model Category2 {
   id        Int       @id @default(autoincrement())
-  name      String
+  category  String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
@@ -186,7 +198,7 @@ model Category2 {
 
 model Category3 {
   id        Int       @id @default(autoincrement())
-  name      String
+  category  String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   products  Product[]
@@ -202,8 +214,8 @@ model Hashtag {
 
 model BrandLike {
   id        Int      @id @default(autoincrement())
-  brand     Brand    @relation(fields: [brandId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  brand     Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   brandId   Int
   userId    Int
   createdAt DateTime @default(now())
@@ -214,8 +226,8 @@ model BrandLike {
 
 model ProductLike {
   id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   productId Int
   userId    Int
   createdAt DateTime @default(now())
@@ -226,8 +238,8 @@ model ProductLike {
 
 model Review {
   id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   userId    Int
   productId Int
   payload   String

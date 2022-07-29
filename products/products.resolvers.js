@@ -14,8 +14,19 @@ export default {
       });
     },
     sizes: ({ id }) => {
-      console.log("haha");
       return client.size.findMany({
+        where: {
+          products: {
+            some: {
+              id,
+            },
+          },
+        },
+      });
+    },
+
+    extraOptions: ({ id }) => {
+      return client.extraOption.findMany({
         where: {
           products: {
             some: {
