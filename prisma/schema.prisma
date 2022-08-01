@@ -79,18 +79,16 @@ model Product {
 }
 
 model ProductItem {
-  id              Int          @id @default(autoincrement())
-  product         Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id              Int     @id @default(autoincrement())
+  productItem     String  @unique
+  product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId       Int
-  color           Color        @relation(fields: [colorId], references: [id])
-  colorId         Int
-  size            Size         @relation(fields: [sizeId], references: [id])
-  sizeId          Int
+  color           String?
+  size            String?
+  extraOption     String?
   additionalPrice Int?
   sku             String?
-  stockAmount     Int          @default(0)
-  ExtraOption     ExtraOption? @relation(fields: [extraOptionId], references: [id])
-  extraOptionId   Int?
+  stockAmount     Int     @default(0)
 }
 
 model Brand {
@@ -146,30 +144,27 @@ model Answer {
 }
 
 model Size {
-  id           Int           @id @default(autoincrement())
-  size         String        @unique
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  products     Product[]
-  productItems ProductItem[]
+  id        Int       @id @default(autoincrement())
+  size      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
 }
 
 model Color {
-  id           Int           @id @default(autoincrement())
-  color        String        @unique
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  products     Product[]
-  productItems ProductItem[]
+  id        Int       @id @default(autoincrement())
+  color     String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
 }
 
 model ExtraOption {
-  id          Int           @id @default(autoincrement())
-  extraOption String        @unique
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id          Int       @id @default(autoincrement())
+  extraOption String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   products    Product[]
-  poductItems ProductItem[]
 }
 
 model Contain {

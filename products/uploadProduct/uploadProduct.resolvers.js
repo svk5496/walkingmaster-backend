@@ -4,6 +4,9 @@ import {
   processCateogry1,
   processCateogry2,
   processCateogry3,
+  processSize,
+  processColor,
+  processExtra,
 } from "../products.utils";
 
 export default {
@@ -19,8 +22,11 @@ export default {
         originalPrice,
         discountPrice,
         firstOption,
+        firstOptionValue,
         secondOption,
+        secondOptionValue,
         thirdOption,
+        thirdOptionValue,
         thumbnail,
         productSliderImage,
         detailPage1,
@@ -32,6 +38,42 @@ export default {
       }
     ) => {
       try {
+        //color, size, extraOption processer
+
+        let colorObj = [];
+        let sizeObj = [];
+        let extraOptionObj = [];
+
+        if (firstOption) {
+          if (firstOption === "컬러") {
+            colorObj = processColor(firstOptionValue);
+          } else if (firstOption === "사이즈") {
+            sizeObj = processSize(firstOptionValue);
+          } else {
+            extraOptionObj = processExtra(firstOptionValue);
+          }
+        }
+
+        if (secondOption) {
+          if (secondOption === "컬러") {
+            colorObj = processColor(secondOptionValue);
+          } else if (secondOption === "사이즈") {
+            sizeObj = processSize(secondOptionValue);
+          } else {
+            extraOptionObj = processExtra(secondOptionValue);
+          }
+        }
+
+        if (thirdOption) {
+          if (thirdOption === "컬러") {
+            colorObj = processColor(thirdOptionValue);
+          } else if (thirdOption === "사이즈") {
+            sizeObj = processSize(thirdOptionValue);
+          } else {
+            extraOptionObj = processExtra(thirdOptionValue);
+          }
+        }
+
         // 브랜드가 있는지 없는지
         const existingBrand = await client.brand.findFirst({
           where: {
@@ -92,6 +134,21 @@ export default {
             firstOption,
             secondOption,
             thirdOption,
+            ...(colorObj.length > 0 && {
+              colors: {
+                connectOrCreate: colorObj,
+              },
+            }),
+            ...(sizeObj.length > 0 && {
+              sizes: {
+                connectOrCreate: sizeObj,
+              },
+            }),
+            ...(extraOptionObj.length > 0 && {
+              extraOptions: {
+                connectOrCreate: extraOptionObj,
+              },
+            }),
             thumbnail,
             productSliderImage,
             detailPage1,

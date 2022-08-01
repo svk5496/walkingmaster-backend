@@ -16,7 +16,6 @@ export default {
           // },
         },
       });
-      console.log(Brands);
       return Brands;
     },
   },

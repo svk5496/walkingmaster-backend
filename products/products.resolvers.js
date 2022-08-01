@@ -86,7 +86,7 @@ export default {
       }
       return false;
     },
-    productItem: ({ id }) => client.product.findUnique({ id }).ProductItem(),
+    productItems: ({ id }) => client.product.findMany({ id }).ProductItem(),
   },
   ProductItem: {
     inStock: async ({ id }) => {

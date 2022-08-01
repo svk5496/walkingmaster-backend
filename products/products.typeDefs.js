@@ -10,7 +10,7 @@ export default gql`
     brand: Brand!
     sizes: [Size]
     colors: [Color]
-    extraOptions: [Color]
+    extraOptions: [ExtraOption]
     thumbnail: String!
     productSliderImage: String
     detailPage1: String!
@@ -35,23 +35,29 @@ export default gql`
 
   type Color {
     id: Int!
-    name: String!
+    color: String!
     products: Product!
-    ProductItem: ProductItem!
   }
 
   type Size {
     id: Int!
-    name: String!
+    size: String!
     products: Product!
-    ProductItem: ProductItem!
+  }
+
+  type ExtraOption {
+    id: Int!
+    extraOption: String!
+    products: Product!
   }
 
   type ProductItem {
     id: Int!
+    productItem: String!
     product: Product!
-    color: Color!
-    size: Size!
+    color: String
+    size: String
+    extraOption: String
     additionalPrice: Int
     sku: String
     stockAmount: Int!

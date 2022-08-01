@@ -15,8 +15,11 @@ export default gql`
       originalPrice: Int!
       discountPrice: Int
       firstOption: String!
+      firstOptionValue: String!
       secondOption: String
+      secondOptionValue: String
       thirdOption: String
+      thirdOptionValue: String
       thumbnail: String!
       productSliderImage: String
       detailPage1: String!
